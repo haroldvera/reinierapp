@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reinierservice
+  labels:
+    app: reinierservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+     labels:
+         app: reinierservice
+    spec:
+      terminationGracePeriodSeconds: 30
+      nodeSelector:
+        nodo: reinier
+      containers:
+        - name: reinierapp
+          image: gcr.io/reinier-cloud/reinierapp
+          ports:
+            - containerPort: 4369
+            - containerPort: 3434
+          env:
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: MY_POD_NAME
+              value: "reinierapp"
+            - name: WEB_PORT
+              value: "3434"
