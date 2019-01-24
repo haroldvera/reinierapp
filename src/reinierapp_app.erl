@@ -34,6 +34,7 @@ start_webui() ->
     env => #{dispatch => cowboy_router:compile([
       {'_', [
         {"/reinerservice/echo", reiner_handler, []},
+        {"/reinerservice/fib", fib_handler, []},
         {"/", default_handler, []}
       ]}
     ])}
